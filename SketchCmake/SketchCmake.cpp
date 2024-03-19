@@ -5,7 +5,7 @@
 #include <cmath>
 #include <sstream>
 #include <chrono>
-// funcoes para criptografar string para base64 
+// funcoes para criptografar string para base64
 char intParaChar(int entrada) {
     if (entrada == 1) {
         return '1';
@@ -24,8 +24,7 @@ int charParaInt(char entrada) {
     }
 }
 
-std::string decimalParaBinario(int decimal)
-{
+std::string decimalParaBinario(int decimal) {
     std::vector<int> binario;
 
     // Caso especial para o valor zero
@@ -104,14 +103,13 @@ std::string base64Decode(std::string StringCodificada) {
 
 
 //funcoes para criptografar string para SHA256
-
+// otimizado pt1
 std::string rightRotate(std::string str, int x) {
     std::string result = str;
     int length = str.length();
 
-    // Verifica se o valor de x é válido
-    if (x >= length)
-        return "Valor de x é maior ou igual ao tamanho da string.";
+    // Garante que x esteja dentro do intervalo válido
+    x = x % length;
 
     // Move x posições para a direita
     for (int i = 0; i < length; ++i) {
@@ -120,18 +118,14 @@ std::string rightRotate(std::string str, int x) {
 
     return result;
 }
-
+// otimizado pt1
 std::string rightShift(std::string input, int x) {
-    std::string result = input;  // Cria uma cópia da string de entrada
-
     // Realiza o deslocamento à direita
     for (int i = 0; i < x; ++i) {
-        char lastChar = result.back();  // Obtém o último caractere
-        result.pop_back();  // Remove o último caractere
-        result.insert(result.begin(), '0');  // Insere '0' no início
+        input = '0' + input;  // Adiciona '0' à esquerda
     }
 
-    return result;
+    return input;
 }
 
 std::string XOR(std::string str1, std::string str2, std::string str3) {
@@ -147,79 +141,75 @@ std::string XOR(std::string str1, std::string str2, std::string str3) {
     }
     return result;
 }
-
+// otimizado pt1
 std::string somar2Binarios(std::string bin1, std::string bin2) {
-    // Verifica se as strings têm o tamanho correto (32 bits)
     if (bin1.size() != 32 || bin2.size() != 32) {
         return "Erro: As strings devem ter 32 bits cada.";
     }
 
     std::string resultado;
-    int carry = 0; // Representa o bit de transporte
+    int carry = 0;
 
-    // Percorre as strings da direita para a esquerda
     for (int i = 31; i >= 0; --i) {
-        int bit1 = bin1[i] - '0'; // Converte char para int (0 ou 1)
+        int bit1 = bin1[i] - '0';
         int bit2 = bin2[i] - '0';
 
-        // Realiza a soma dos bits e do bit de transporte
         int soma = bit1 + bit2 + carry;
-        resultado.insert(resultado.begin(), '0' + (soma % 2)); // Insere o bit no início da string
-        carry = soma / 2; // Atualiza o bit de transporte
+        resultado += '0' + (soma % 2);
+        carry = soma / 2;
     }
 
+    std::reverse(resultado.begin(), resultado.end());
     return resultado;
 }
+// otimizado pt1
 std::string somar4Binarios(std::string bin1, std::string bin2, std::string bin3, std::string bin4) {
-    // Verifica se as strings têm o tamanho correto (32 bits)
     if (bin1.size() != 32 || bin2.size() != 32 || bin3.size() != 32 || bin4.size() != 32) {
         return "Erro: As strings devem ter 32 bits cada.";
     }
 
     std::string resultado;
-    int carry = 0; // Representa o bit de transporte
+    int carry = 0;
 
-    // Percorre as strings da direita para a esquerda
     for (int i = 31; i >= 0; --i) {
-        int bit1 = bin1[i] - '0'; // Converte char para int (0 ou 1)
+        int bit1 = bin1[i] - '0';
         int bit2 = bin2[i] - '0';
         int bit3 = bin3[i] - '0';
         int bit4 = bin4[i] - '0';
 
-        // Realiza a soma dos bits e do bit de transporte
         int soma = bit1 + bit2 + bit3 + bit4 + carry;
-        resultado.insert(resultado.begin(), '0' + (soma % 2)); // Insere o bit no início da string
-        carry = soma / 2; // Atualiza o bit de transporte
+        resultado += '0' + (soma % 2);
+        carry = soma / 2;
     }
 
+    std::reverse(resultado.begin(), resultado.end());
     return resultado;
 }
-std::string somar5Binarios(std::string bin1, std::string bin2, std::string bin3, std::string bin4, std::string bin5){
-    // Verifica se as strings têm o tamanho correto (32 bits)
+// otimizado pt1
+std::string somar5Binarios(std::string bin1, std::string bin2, std::string bin3, std::string bin4, std::string bin5) {
     if (bin1.size() != 32 || bin2.size() != 32 || bin3.size() != 32 || bin4.size() != 32 || bin5.size() != 32) {
         return "Erro: As strings devem ter 32 bits cada.";
     }
 
     std::string resultado;
-    int carry = 0; // Representa o bit de transporte
+    int carry = 0;
 
-    // Percorre as strings da direita para a esquerda
     for (int i = 31; i >= 0; --i) {
-        int bit1 = bin1[i] - '0'; // Converte char para int (0 ou 1)
+        int bit1 = bin1[i] - '0';
         int bit2 = bin2[i] - '0';
         int bit3 = bin3[i] - '0';
         int bit4 = bin4[i] - '0';
         int bit5 = bin5[i] - '0';
 
-        // Realiza a soma dos bits e do bit de transporte
         int soma = bit1 + bit2 + bit3 + bit4 + bit5 + carry;
-        resultado.insert(resultado.begin(), '0' + (soma % 2)); // Insere o bit no início da string
-        carry = soma / 2; // Atualiza o bit de transporte
+        resultado += '0' + (soma % 2);
+        carry = soma / 2;
     }
 
+    std::reverse(resultado.begin(), resultado.end());
     return resultado;
 }
-
+// otimizado pt1
 std::vector<std::string> calcularPartesFracionadas() {
     std::vector<std::string> results;
     int primes[] = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311 };
@@ -229,29 +219,19 @@ std::vector<std::string> calcularPartesFracionadas() {
         double cubeRoot = cbrt(primes[i]);
         double fractionalPart = cubeRoot - std::floor(cubeRoot);
 
-        std::ostringstream bitRepresentation;
+        std::string bitRepresentation;
         for (int j = 0; j < 32; ++j) {
             fractionalPart *= 2;
-            if (fractionalPart >= 1) {
-                bitRepresentation << "1";
-                fractionalPart -= 1;
-            }
-            else {
-                bitRepresentation << "0";
-            }
+            bitRepresentation += (fractionalPart >= 1) ? '1' : '0';
+            fractionalPart -= std::floor(fractionalPart);
         }
-        results.push_back(bitRepresentation.str());
+        results.push_back(bitRepresentation);
     }
 
     return results;
 }
 
 std::string FuncaoChoice(std::string e, std::string f, std::string g) {
-    if (e.length() != f.length() || f.length() != g.length()) {
-        std::cerr << "As strings de entrada devem ter o mesmo comprimento." << std::endl;
-        return "";
-    }
-
     std::string result;
     for (size_t i = 0; i < e.length(); ++i) {
         bool e_bit = e[i] == '1';
@@ -266,11 +246,6 @@ std::string FuncaoChoice(std::string e, std::string f, std::string g) {
 }
 
 std::string FuncaoMajority(std::string a, std::string b, std::string c) {
-    if (a.length() != b.length() || b.length() != c.length()) {
-        std::cerr << "As strings de entrada devem ter o mesmo comprimento." << std::endl;
-        return "";
-    }
-
     std::string result;
     for (size_t i = 0; i < a.length(); ++i) {
         bool a_bit = a[i] == '1';
@@ -283,11 +258,10 @@ std::string FuncaoMajority(std::string a, std::string b, std::string c) {
 
     return result;
 }
-
-std::string binarioParaHexadecimal(std::string binario) {
-    if (binario.length() != 32) {
-        return "Erro: A string binária deve ter 32 bits.";
-    }
+// otimizado pt1
+std::string binarioParaHexadecimal(const std::string& binario) {
+    // Pré-cálculo dos dígitos hexadecimais
+    const char hexDigits[] = "0123456789abcdef";
 
     std::string resultado;
     for (size_t i = 0; i < binario.length(); i += 4) {
@@ -296,7 +270,7 @@ std::string binarioParaHexadecimal(std::string binario) {
             valor_decimal = (valor_decimal << 1) + (binario[i + j] - '0');
         }
 
-        char digito_hexadecimal = (valor_decimal < 10) ? ('0' + valor_decimal) : ('a' + valor_decimal - 10);
+        char digito_hexadecimal = hexDigits[valor_decimal];
         resultado += digito_hexadecimal;
     }
 
@@ -304,7 +278,6 @@ std::string binarioParaHexadecimal(std::string binario) {
 }
 
 std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
-    
     if (FraseParaTraduzirSHA256.size() > 55) {
         std::cout << "Nao foi possivel codificar em SHA256 pois a string tem um tamanho maior do que 55";
         return "";
@@ -313,7 +286,7 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
         std::string MessageBlock;
 
         //resulta em um bloco de 512 bits, caso o tamanho da frase para criptografar seja maior que 512 em binario (8 casas), o tamanho do bloco deve dobrar
-        for (int x = 0; x < 512; x++) { // porem eu irei apenas fazer com um bloco de 512 bits
+        for (int x = 0; x < 512; x++) {
             MessageBlock += "0";
         }
 
@@ -324,7 +297,6 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
             valorBinarioSHA256 += binario;
         }
 
-        //std::cout << valorBinarioSHA256 << std::endl;
 
         // insere o valor binario no MessageBlock
         int x1 = 0;
@@ -334,7 +306,6 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
         }
         //adicionamos +1 no final do valor binario
         MessageBlock[x1] = '1';
-        //std::cout << MessageBlock << std::endl;
 
         int tamanhoEmBits = FraseParaTraduzirSHA256.size() * 8;
         std::string tamanhoBinarioSHA256 = decimalParaBinario(tamanhoEmBits);
@@ -344,18 +315,8 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
             MessageBlock[tamanhoMessageBlock] = tamanhoBinarioSHA256[x];
             tamanhoMessageBlock--;
         }
-        //std::cout << "------------------------------------------------------" << std::endl;
-        /*for (int x = 0; x < MessageBlock.size(); x++) {
-            if ((x + 1) % 32 == 0) {
-                std::cout << "" << std::endl;
-            }
-            else {
-                std::cout << MessageBlock[x];
-            }
-        }*/
-        //std::cout << "------------------------------------------------------" << std::endl;
 
-        //adicionar 
+        //adicionar
 
         std::vector<std::string> MessageSchedule;
 
@@ -374,20 +335,11 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
         }
 
 
-        //std::cout << MessageSchedule.size() << std::endl;
-
         //Completa o vetor com 0s ate atingir 64 espacos no vetor.
         for (int x = 15; x < 63; x++) {
             MessageSchedule.push_back("00000000000000000000000000000000");
         }
 
-
-        /*for (int x = 0; x < MessageSchedule.size(); x++) {
-            std::cout << MessageSchedule[x];
-            std::cout << "-> w";
-            std::cout << x << std::endl;
-        }*/
-        //std::cout << "------------------------------------------------------" << std::endl;
 
         //calculo megamalvonico
 
@@ -404,11 +356,6 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
             MessageSchedule[x + 16] = w16;
         }
 
-        /*for (int x = 0; x < MessageSchedule.size(); x++) {
-            std::cout << MessageSchedule[x];
-            std::cout << "-> w";
-            std::cout << x << std::endl;
-        }*/
 
         std::string h0, h1, h2, h3, h4, h5, h6, h7;
 
@@ -420,13 +367,10 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
         h5 = "10011011000001010110100010001100";
         h6 = "00011111100000111101100110101011";
         h7 = "01011011111000001100110100011001";
-        //std::cout << "------------------------------------------------------" << std::endl;
+
 
         std::vector<std::string> K_constants = calcularPartesFracionadas();
 
-        /*for (int x = 0; x < K_constants.size(); x++) {
-            std::cout << K_constants[x] << std::endl;
-        }*/
 
         std::string a, b, c, d, e, f, g, h;
 
@@ -438,23 +382,16 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
         f = h5;
         g = h6;
         h = h7;
-        // std::cout << "------------------------------------------------------" << std::endl;
+
         for (int x = 0; x < 64; x++) {
             std::string Σ1;
             Σ1 = XOR(rightRotate(e, 6), rightRotate(e, 11), rightRotate(e, 25));
-
             std::string Choice = FuncaoChoice(e, f, g);
-
             std::string Temp1 = somar5Binarios(h, Σ1, Choice, K_constants[x], MessageSchedule[x]);
-
             std::string Σ0 = XOR(rightRotate(a, 2), rightRotate(a, 13), rightRotate(a, 22));
-
             std::string Majority = FuncaoMajority(a, b, c);
-
             std::string Temp2 = somar2Binarios(Majority, Σ0);
-
             std::string Temp1_2 = somar2Binarios(Temp1, Temp2);
-
             std::string d_Temp1 = somar2Binarios(d, Temp1);
 
             h = g;
@@ -468,7 +405,6 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
 
 
         }
-
 
         h0 = binarioParaHexadecimal(somar2Binarios(a, h0));
         h1 = binarioParaHexadecimal(somar2Binarios(b, h1));
@@ -491,8 +427,6 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
 
         return SHA256;
     }
-    
-    
 }
 //----------------------------------------------
 
@@ -613,7 +547,7 @@ int main() {
     std::cout << "---------------------------------------------------" << std::endl;
 
     //HMAC SHA256-----------------------------------------------------------------------------------------------------------------------------------------
-    std::string stringParaSHA256 = "zzz";
+    std::string stringParaSHA256 = "aaa";
     std::string SHA256 = sha256Encode(stringParaSHA256);
     if (SHA256 != "") {
         std::cout << "Frase que sera inserida no encode sha256: ";
@@ -631,12 +565,12 @@ int main() {
         std::cin.get();
 
         auto start = std::chrono::high_resolution_clock::now();
-        
+
         std::string stringFinal = generateCombinations(SHA256);
 
         std::cout << stringFinal;
         std::cout << "<--- STRING QUE CORRESPONDE A SHA ENCONTRADO" << std::endl;
-        
+
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> duration = end - start;
         std::cout << "Tempo de execução: " << duration.count() << " segundos" << std::endl;
