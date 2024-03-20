@@ -1,12 +1,12 @@
-#Encoder-Decoder
+# Encoder-Decoder
 Integrantes:
 >Felipe Porto Caldeira do Nascimento
 >Alexandre Wahl
 
-#Objetivo
+# Objetivo
 Este projeto visa demonstrar como uma string pode ser codificada na base64 e SHA256. 
 
-#Funções
+# Funções
 O projeto contem as seguintes funções:
 *base64Encode(std::string String)*
 
