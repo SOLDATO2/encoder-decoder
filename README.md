@@ -7,6 +7,8 @@ Integrantes:
 # Apresentação detalhada (Slides)
 [SHA256](https://github.com/SOLDATO2/encoder-decoder/raw/master/SHA%20256.pptx)
 
+[Base64](https://github.com/SOLDATO2/encoder-decoder/raw/master/Base64.pptx)
+
 # Objetivo
 Este projeto visa demonstrar como uma string pode ser codificada na base64 e SHA256. 
 
