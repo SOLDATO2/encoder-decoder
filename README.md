@@ -9,11 +9,12 @@ Este projeto visa demonstrar como uma string pode ser codificada na base64 e SHA
 
 # Funções
 O projeto contem as seguintes funções:
+
 **base64Encode(std::string String)**
 
 Recebe uma string e retorna outra codificada na base64 (não aceita numeros e nem caracteres especiais alem de '+' e '/'
 
-**base64Encode(std::string String)**
+**base64Decode(std::string String)**
 
 Recebe uma string codificada na base64 e retorna uma string legivel
 
