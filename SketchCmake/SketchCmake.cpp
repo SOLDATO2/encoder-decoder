@@ -98,6 +98,46 @@ std::string base64Decode(std::string StringCodificada) {
     }
 
     return decodedString;
+
+}
+
+std::string base64Encode(std::string string) {
+        std::string v64;
+        std::string valorBinario;
+        std::string colinha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        std::string FraseParaTraduzir = string;
+
+        for (int x = 0; x < FraseParaTraduzir.size(); x++) {
+            std::string binario = decimalParaBinario(int(FraseParaTraduzir[x]));
+            valorBinario += binario;
+        }
+
+        //adiciona padding
+        while (valorBinario.size() % 6 != 0) {
+            valorBinario += '0'; // adiciona os zeros no final da string
+        }
+
+        std::vector<std::string> vetTemp;
+        int ultimaCasaSalva = 0;
+        for (int l = 0; l < valorBinario.size(); l = l + 6) {
+            std::string casaBinaria;
+            for (int v = 6; v > 0; v--) {
+                casaBinaria += valorBinario[ultimaCasaSalva];
+                ultimaCasaSalva++;
+            }
+            vetTemp.push_back(casaBinaria);
+        }
+
+        //traduz string para decimal convertido
+        for (int x = 0; x < vetTemp.size(); x++) {
+            v64 += colinha[binarioParaDecimal(vetTemp[x])];
+        }
+
+        //adiciona padding na string base64
+        while (v64.size() % 4 != 0) {
+            v64 += '='; // adiciona os paddings no final da string
+        }
+        return v64;
 }
 //----------------------------------------------
 
@@ -283,9 +323,9 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
         return "";
     }
     else {
+
         std::string MessageBlock;
 
-        //resulta em um bloco de 512 bits, caso o tamanho da frase para criptografar seja maior que 512 em binario (8 casas), o tamanho do bloco deve dobrar
         for (int x = 0; x < 512; x++) {
             MessageBlock += "0";
         }
@@ -319,7 +359,6 @@ std::string sha256Encode(std::string FraseParaTraduzirSHA256) {
         //adicionar
 
         std::vector<std::string> MessageSchedule;
-
 
 
         std::string BlocoTemp;
@@ -499,41 +538,9 @@ std::string generateCombinations(std::string SHA256) {
 }
 //----------------------------------------------
 int main() {
-    std::string v64;
-    std::string valorBinario;
-    std::string colinha = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     std::string FraseParaTraduzir = "Man";
 
-    for (int x = 0; x < FraseParaTraduzir.size(); x++) {
-        std::string binario = decimalParaBinario(int(FraseParaTraduzir[x]));
-        valorBinario += binario;
-    }
-
-    //adiciona padding
-    while (valorBinario.size() % 6 != 0) {
-        valorBinario += '0'; // adiciona os zeros no final da string
-    }
-
-    std::vector<std::string> vetTemp;
-    int ultimaCasaSalva = 0;
-    for (int l = 0; l < valorBinario.size(); l = l + 6) {
-        std::string casaBinaria;
-        for (int v = 6; v > 0; v--) {
-            casaBinaria += valorBinario[ultimaCasaSalva];
-            ultimaCasaSalva++;
-        }
-        vetTemp.push_back(casaBinaria);
-    }
-
-    //traduz string para decimal convertido
-    for (int x = 0; x < vetTemp.size(); x++) {
-        v64 += colinha[binarioParaDecimal(vetTemp[x])];
-    }
-
-    //adiciona padding na string base64
-    while (v64.size() % 4 != 0) {
-        v64 += '='; // adiciona os paddings no final da string
-    }
+    std::string v64 = base64Encode(FraseParaTraduzir);
 
     std::cout << FraseParaTraduzir;
     std::cout << "<--- String original" << std::endl;
@@ -547,7 +554,7 @@ int main() {
     std::cout << "---------------------------------------------------" << std::endl;
 
     //HMAC SHA256-----------------------------------------------------------------------------------------------------------------------------------------
-    std::string stringParaSHA256 = "aaa";
+    std::string stringParaSHA256 = "zzz";
     std::string SHA256 = sha256Encode(stringParaSHA256);
     if (SHA256 != "") {
         std::cout << "Frase que sera inserida no encode sha256: ";
